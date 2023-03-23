@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,20 @@ public class DumnmyControllerTest {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@DeleteMapping("/dummy/user/{id}")
+	public String delete(@PathVariable int id) {
+	try {
+		userRepository.deleteById(id);
+	}catch(Exception e){
+		return "삭제에 실패하였습니다. 해당id는 없습니다.";
+	}
+	
+		
+		return "삭제되었습니다.id"+id;
+	}
+	
+	
+	
 	@Transactional
 	@PutMapping("/dummy/user/{id}")
 	public User updateUser(@PathVariable int id, @RequestBody User requestUser) {
@@ -43,7 +58,7 @@ public class DumnmyControllerTest {
 		//@transactional을 사용하면 save함수를 호출 안해도됨 업데이트가된다.
 		//userRepository.save(user);
 		
-		return null;
+		return user;
 	}
 	
 	@GetMapping("/dummy/users")
