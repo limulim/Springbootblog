@@ -39,11 +39,10 @@ public class Board {
 	@Lob//대용량 데이터
 	private String content; 
 
-	@ColumnDefault("0")
 	private int count;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="userid")
+	@JoinColumn(name="userId")
 	private User user;
 	
 	@OneToMany(mappedBy ="board", fetch = FetchType.EAGER)
