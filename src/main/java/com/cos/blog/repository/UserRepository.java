@@ -7,5 +7,6 @@ import com.cos.blog.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
-	User findByUsernameAndPassword(String username, String password);
+	
 }
+//User findByUsernameAndPassword(String username, String password);
