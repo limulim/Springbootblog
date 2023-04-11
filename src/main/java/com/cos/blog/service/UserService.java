@@ -29,4 +29,14 @@ public class UserService {
 		userRepository.save(user);
 	}
 	
+	@Transactional
+	public void 회원수정(User user) {
+		User psersistance = userRepository.findById(user.getId()).orElseThrow(()->{
+			return new IllegalArgumentException("회원 찾기 실패");
+		});
+		String rawPassword = user.getPassword();
+		String encPassword = encoder.encode(rawPassword);
+		psersistance.setPassword(encPassword);
+		psersistance.setEmail(user.getEmail());
+	}
 }
