@@ -2,6 +2,8 @@ package com.cos.blog.service;
 
 
 
+import javax.persistence.Persistence;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +26,15 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
+	@Transactional(readOnly = true)
+	public User 회원찾기(String username) {
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
+			return user;
+		
+	}
+	
 	@Transactional
 	public void 회원가입(User user) {
 		String rawPassword = user.getPassword();
@@ -35,12 +46,17 @@ public class UserService {
 	
 	@Transactional
 	public void 회원수정(User user) {
-		User psersistance = userRepository.findById(user.getId()).orElseThrow(()->{
+		User psrsistance = userRepository.findById(user.getId()).orElseThrow(()->{
 			return new IllegalArgumentException("회원 찾기 실패");
 		});
+		
+		if(psrsistance.getOauth() == null || psrsistance.getOauth().equals("")) {
 		String rawPassword = user.getPassword();
 		String encPassword = encoder.encode(rawPassword);
-		psersistance.setPassword(encPassword);
-		psersistance.setEmail(user.getEmail());
+		psrsistance.setPassword(encPassword);
+		psrsistance.setEmail(user.getEmail());
+		}
+		
+		
 	}
 }
