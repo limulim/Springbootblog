@@ -29,9 +29,13 @@ let index = {
 		dataType: "json"
 		
 	}).done(function(resp){
+		if(resp.status === 500) {
+		alert("회원가입에 실패되었습니다.");
+		}else{
 		alert("회원가입이 완료되었습니다.");
-		//console.log(resp)
 		location.href = "/";
+		}
+		
 	}).fail(function(error){
 		alert(JSON.stringify(error));
 	});
